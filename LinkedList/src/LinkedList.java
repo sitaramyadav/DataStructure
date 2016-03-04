@@ -1,5 +1,5 @@
 public class LinkedList<S> {
-    private int counter=0;
+    private int length = 0;
     private Element<S> head;
 
     public LinkedList() {
@@ -13,22 +13,20 @@ public class LinkedList<S> {
         Element current = head;
 
         if (current != null) {
-            while (current.getNext() != null) {
+            while (current.getNext() != null)
                 current = current.getNext();
-            }
-
             current.setNext(temp);
         }
 
-        incrementCounter();
+        incrementLength();
     }
 
-    private void incrementCounter() {
-        counter++;
+    private void incrementLength() {
+        length++;
     }
 
-    private void decrementCounter() {
-        counter--;
+    private void decrementLength() {
+        length--;
     }
 
     public void add(S data, int index) {
@@ -42,17 +40,18 @@ public class LinkedList<S> {
         assert current != null;
         temp.setNext(current.getNext());
         current.setNext(temp);
-        incrementCounter();
+        incrementLength();
     }
 
-public Object get(int index){
-    Element e = this.head;
-    for(int i=0;i<index;i++) e = e.getNext();
-    if(this.counter<index) {
-        return null;
+    public Object get(int index) {
+        Element e = this.head;
+        for (int i = 0; i < index; i++) e = e.getNext();
+        if (this.length < index) {
+            return null;
+        }
+        return e.getData();
     }
-    return e.getData();
-}
+
     public boolean remove(int index) {
         if (index < 1 || index > size()) {
             return false;
@@ -64,25 +63,13 @@ public Object get(int index){
                     return true;
                 }
             current.getNext().getNext().setNext(current);
-            decrementCounter();
+            decrementLength();
             return true;
         }
         return false;
     }
+
     public int size() {
-        return counter;
-    }
-
-    public String toString() {
-        String output = "";
-
-        if (head != null) {
-            Element current = head.getNext();
-            while (current != null) {
-                output += "[" + current.getData().toString() + "]";
-                current = current.getNext();
-            }
-        }
-        return output;
+        return length;
     }
 }
