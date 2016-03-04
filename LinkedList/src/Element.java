@@ -15,8 +15,7 @@ class Element <T>{
         return next;
     }
 
-    public void setNext(Element nextValue) {
-        next = nextValue;
+    public void setNext(Element next) {
+        this.next = next;
     }
-
 }
