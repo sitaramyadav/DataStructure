@@ -1,34 +1,88 @@
-public class LinkedList<T>{
-
-    private Element first, last;
-    private int length;
+public class LinkedList<S> {
+    private int counter=0;
+    private Element<S> head;
 
     public LinkedList() {
-        first = null;
-        last = null;
-        length = 0;
-    }
-
-    public int add(String value){
-        Element e = new Element(value);
-        if(this.length==0){
-            this.first = this.last = e;
-        }
-        else{
-            this.last.next=e;
-            this.last=e;
-        }
-        this.length+=1;
-        return this.length;
 
     }
-    public String getValue(int index){
-        Element e = this.first;
-        for(int i=0;i<index;i++){
-            e=e.next;
+
+    public void add(S data) {
+        if (head == null) head = new Element<>(data);
+
+        Element<S> temp = new Element<>(data);
+        Element current = head;
+
+        if (current != null) {
+            while (current.getNext() != null) {
+                current = current.getNext();
+            }
+
+            current.setNext(temp);
         }
-        if(this.length<index)
-            return null;
-        return e.value;
+
+        incrementCounter();
+    }
+
+    private void incrementCounter() {
+        counter++;
+    }
+
+    private void decrementCounter() {
+        counter--;
+    }
+
+    public void add(S data, int index) {
+        Element<S> temp = new Element<>(data);
+        Element current = head;
+        if (current != null) {
+            for (int i = 1; i < index && current.getNext() != null; i++) {
+                current = current.getNext();
+            }
+        }
+        assert current != null;
+        temp.setNext(current.getNext());
+        current.setNext(temp);
+        incrementCounter();
+    }
+
+public Object get(int index){
+    Element e = this.head;
+    for(int i=0;i<index;i++) e = e.getNext();
+    if(this.counter<index) {
+        return null;
+    }
+    return e.getData();
+}
+    public boolean remove(int index) {
+        if (index < 1 || index > size()) {
+            return false;
+        }
+        Element current = head;
+        if (head != null) {
+            for (int i = 0; i < index; i++)
+                if (head.getNext() == null) {
+                    return true;
+                }
+            current.getNext().getNext().setNext(current);
+            decrementCounter();
+            return true;
+        }
+        return false;
+    }
+    public int size() {
+        return counter;
+    }
+
+    public String toString() {
+        String output = "";
+
+        if (head != null) {
+            Element current = head.getNext();
+            while (current != null) {
+                output += "[" + current.getData().toString() + "]";
+                current = current.getNext();
+            }
+        }
+        return output;
     }
 }
